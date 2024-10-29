@@ -23,7 +23,7 @@ jobs:
           new_issue_url=$(gh issue create \
             --title "$TITLE" \
             --label "$LABELS" \
-            --project "@kjswartz's kanban test project"
+            --project "@kjswartz's kanban test project" \
             --body "$BODY")
           if [[ $PINNED == true ]]; then
             gh issue pin "$new_issue_url"
