@@ -37,7 +37,7 @@ jobs:
           TITLE: New Issue test
           LABELS: documentation,help wanted
           BODY: |
-            ## TODO: Add JOb title
+            ## TODO: Add Job title
 
             ### 📕 Job Details
 

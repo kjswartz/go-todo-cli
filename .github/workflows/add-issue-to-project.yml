@@ -1,9 +1,8 @@
-name: Add bugs to bugs project
+name: Add issues to project
 
 on:
   issues:
-    types:
-      - opened
+    types: [opened, labeled]
 
 jobs:
   add-to-project:
