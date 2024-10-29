@@ -58,7 +58,7 @@ func initDB() {
 		"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		"description" TEXT,
 		"priority" INTEGER,
-		"completed" BOOLEAN DEFAULT FALSE
+		"completed" BOOLEAN DEFAULT 0
   );`
 
 	_, err = db.Exec(createTableSQL)

@@ -1,2 +1,2 @@
 # add todo binary to .gitignore
-./todo*
+todo

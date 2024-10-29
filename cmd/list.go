@@ -20,8 +20,13 @@ var listCmd = &cobra.Command{
 	Run:   listFunc,
 }
 
+var showCompleted bool
+var showAll bool
+
 func init() {
 	rootCmd.AddCommand(listCmd)
+	listCmd.Flags().BoolVarP(&showCompleted, "completed", "c", false, "Show only completed todo items")
+	listCmd.Flags().BoolVarP(&showAll, "all", "a", false, "Show all todo items (both completed and non-completed)")
 }
 
 func listFunc(cmd *cobra.Command, args []string) {
@@ -31,7 +36,7 @@ func listFunc(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	dbPath := filepath.Join(homeDir, "go", "data")
+	dbPath := filepath.Join(homeDir, "go", "data", "todo.db")
 	db, err := sql.Open("sqlite3", dbPath)
 	if err != nil {
 		fmt.Println("Error opening database:", err)
@@ -39,22 +44,46 @@ func listFunc(cmd *cobra.Command, args []string) {
 	}
 	defer db.Close()
 
-	// Query the database for all todo items ordered by priority
-	query := `SELECT item, priority FROM todos ORDER BY priority ASC`
-	rows, err := db.Query(query)
+	var query string
+	var rows *sql.Rows
+
+	if showAll {
+		query = `SELECT id, description, priority, completed FROM todos ORDER BY priority ASC`
+		rows, err = db.Query(query)
+	} else if showCompleted {
+		query = `SELECT id, description, priority, completed FROM todos WHERE completed = 1 ORDER BY priority ASC`
+		rows, err = db.Query(query)
+	} else {
+		query = `SELECT id, description, priority, completed FROM todos WHERE completed = 0 ORDER BY priority ASC`
+		rows, err = db.Query(query)
+	}
+
 	if err != nil {
 		fmt.Println("Error querying database:", err)
 		return
 	}
 	defer rows.Close()
 	for rows.Next() {
-		var item string
+		var id int
+		var description string
 		var priority int
-		err = rows.Scan(&item, &priority)
+		var completed bool
+
+		err = rows.Scan(&id, &description, &priority, &completed)
 		if err != nil {
 			fmt.Println("Error scanning row:", err)
 			return
 		}
-		fmt.Printf("P%d | %s\n", priority, item)
+
+		printTodoItem(priority, id, description, completed)
+	}
+}
+
+// printTodoItem prints a todo item with its priority, ID, description, and completion status.
+func printTodoItem(priority int, id int, description string, completed bool) {
+	if completed {
+		fmt.Printf("P%d | (%d) %s [c]\n", priority, id, description)
+	} else {
+		fmt.Printf("P%d | (%d) %s\n", priority, id, description)
 	}
 }

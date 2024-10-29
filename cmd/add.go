@@ -30,19 +30,14 @@ func init() {
 	addCmd.Flags().IntVarP(&priority, "priority", "p", 3, "Priority of the todo item (1, 2, or 3)")
 }
 
+var dbPath = filepath.Join(os.Getenv("HOME"), "go", "data", "todo.db")
+
 func addFunc(cmd *cobra.Command, args []string) {
 	if len(args) == 0 {
 		fmt.Println("No todo items provided")
 		return
 	}
 
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		fmt.Println("Error getting home directory:", err)
-		return
-	}
-
-	dbPath := filepath.Join(homeDir, "go", "data")
 	db, err := sql.Open("sqlite3", dbPath)
 	if err != nil {
 		fmt.Println("Error opening database:", err)
