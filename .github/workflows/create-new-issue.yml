@@ -22,7 +22,6 @@ jobs:
           fi
           new_issue_url=$(gh issue create \
             --title "$TITLE" \
-            --assignee "$ASSIGNEES" \
             --label "$LABELS" \
             --body "$BODY")
           if [[ $PINNED == true ]]; then
@@ -32,19 +31,24 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
           TITLE: New Issue test
-          ASSIGNEES: kjswartz
-          LABELS: question,help wanted
+          LABELS: documentation,help wanted
           BODY: |
-            ### Agenda
+            ## TODO: Add JOb title
 
-            - [ ] Start the recording
-            - [ ] Check-ins
-            - [ ] Discussion points
-            - [ ] Post the recording
+            ### 📕 Job Details
 
-            ### Discussion Points
-            Add things to discuss below
+            **Proposed Job Title:** _TODO_
+            **Proposed Level:** 10
+            **Hiring Manager:** _TODO_
+            **Skip:** _TODO_
+            **VP:** _TODO_
+            **Team/Product:** _TODO_
+            **Org / Cost Center:**  _TODO_
 
-            - [Work this week](https://github.com/kjswartz/go-todo-cli)
+            ### 🔗 Job Description + Internal Summary
+
+            For the full JD, see the external job post: here (should link)
+
+            Here should be a 1-2 paragraph internal job summary that is meaningful to an engineering Hubber.
           PINNED: false
           CLOSE_PREVIOUS: false
