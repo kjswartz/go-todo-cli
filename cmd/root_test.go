@@ -10,17 +10,17 @@ import (
 )
 
 func TestInitDB(t *testing.T) {
-	// Setup: Create a temporary directory for the test
-	tempDir := t.TempDir()
-	originalHomeDir := os.Getenv("HOME")
-	defer os.Setenv("HOME", originalHomeDir)
-	os.Setenv("HOME", tempDir)
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		t.Fatalf("Error getting home directory: %v", err)
+	}
+
+	// Verify: Check if the database file was created
+	testDbPath := filepath.Join(homeDir, "go", "data", "todo_test.db")
+	dbPath = testDbPath // Override the global variable
 
 	// Call the function to test
 	initDB()
-
-	// Verify: Check if the database file was created
-	dbPath := filepath.Join(tempDir, "go", "data", "todo_test.db")
 
 	if _, err := os.Stat(dbPath); os.IsNotExist(err) {
 		t.Fatalf("Expected database file to be created at %s, but it does not exist", dbPath)

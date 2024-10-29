@@ -27,16 +27,16 @@ func TestAddFunc(t *testing.T) {
 	defer db.Close()
 
 	// Ensure the todos table exists
-	createTableSQL := `CREATE TABLE IF NOT EXISTS todos (
-        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        description TEXT,
-        priority INTEGER,
-        completed BOOLEAN DEFAULT FALSE
-    );`
-	_, err = db.Exec(createTableSQL)
-	if err != nil {
-		t.Fatalf("Error creating table: %v", err)
-	}
+	// createTableSQL := `CREATE TABLE IF NOT EXISTS todos (
+	//       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	//       description TEXT,
+	//       priority INTEGER,
+	//       completed BOOLEAN DEFAULT FALSE
+	//   );`
+	// _, err = db.Exec(createTableSQL)
+	// if err != nil {
+	// 	t.Fatalf("Error creating table: %v", err)
+	// }
 
 	tests := []struct {
 		name     string
