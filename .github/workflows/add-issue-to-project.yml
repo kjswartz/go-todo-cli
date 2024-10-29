@@ -1,0 +1,18 @@
+name: Add bugs to bugs project
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  add-to-project:
+    name: Add issue to project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/add-to-project@v1.0.2
+        with:
+          project-url: https://github.com/users/kjswartz/projects/1/views/1
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          labeled: documentation,help wanted
+          label-operator: AND
