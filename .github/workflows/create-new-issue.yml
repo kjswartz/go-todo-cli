@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       issues: write
+      contents: read
     steps:
       - name: Create on push sync issue
         run: |
@@ -20,13 +21,30 @@ jobs:
               gh issue unpin "$previous_issue_number"
             fi
           fi
+          
+          # Create the new issue
           new_issue_url=$(gh issue create \
             --title "$TITLE" \
             --label "$LABELS" \
-            --project "PVT_kwHOAJKhn84ArPrh" \
-            --body "$BODY")
+            --body "$BODY" \
+            --json url \
+            --jq '.url')
+
+          # Extract the issue number from the URL
+          issue_number=$(echo $new_issue_url | grep -o '[0-9]*$')
+
+          # Add the issue to the project using GraphQL API
+          gh api graphql -f query='
+          mutation($projectId: ID!, $issueId: ID!) {
+            addProjectV2ItemById(input: {projectId: $projectId, contentId: $issueId}) {
+              item {
+                id
+              }
+            }
+          }' -f projectId="PVT_kwHOAJKhn84ArPrh" -f issueId="MDU6SXNzdWU$(echo $issue_number)"
+
           if [[ $PINNED == true ]]; then
-            gh issue pin "$new_issue_url"
+            gh issue pin "$issue_number"
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
