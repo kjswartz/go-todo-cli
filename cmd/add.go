@@ -6,8 +6,6 @@ package cmd
 import (
 	"database/sql"
 	"fmt"
-	"os"
-	"path/filepath"
 
 	"github.com/spf13/cobra"
 )
@@ -29,8 +27,6 @@ func init() {
 	rootCmd.AddCommand(addCmd)
 	addCmd.Flags().IntVarP(&priority, "priority", "p", 3, "Priority of the todo item (1, 2, or 3)")
 }
-
-var dbPath = filepath.Join(os.Getenv("HOME"), "go", "data", "todo.db")
 
 func addFunc(cmd *cobra.Command, args []string) {
 	if len(args) == 0 {

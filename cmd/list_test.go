@@ -17,7 +17,9 @@ func TestListFunc(t *testing.T) {
 		t.Fatalf("Error getting home directory: %v", err)
 	}
 
-	dbPath := filepath.Join(homeDir, "go", "data", "test_todo.db")
+	testDbPath := filepath.Join(homeDir, "go", "data", "todo_test.db")
+	dbPath = testDbPath // Override the global variable
+
 	db, err := sql.Open("sqlite3", dbPath)
 	if err != nil {
 		t.Fatalf("Error opening database: %v", err)

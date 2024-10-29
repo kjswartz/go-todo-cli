@@ -52,10 +52,10 @@ func TestAddFunc(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Clear the table before each test
-			// _, err := db.Exec("DELETE FROM todos")
-			// if err != nil {
-			// 	t.Fatalf("Error clearing table: %v", err)
-			// }
+			_, err := db.Exec("DELETE FROM todos")
+			if err != nil {
+				t.Fatalf("Error clearing table: %v", err)
+			}
 
 			cmd := &cobra.Command{}
 			cmd.Flags().IntP("priority", "p", tt.priority, "Priority of the todo item (1, 2, or 3)")

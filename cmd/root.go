@@ -33,20 +33,9 @@ func init() {
 	initDB()
 }
 
+var dbPath = filepath.Join(os.Getenv("HOME"), "go", "data", "todo.db")
+
 func initDB() {
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		fmt.Println("Error getting home directory:", err)
-		return
-	}
-
-	dataDir := filepath.Join(homeDir, "go", "data")
-	if err := os.MkdirAll(dataDir, os.ModePerm); err != nil {
-		fmt.Println("Error creating data directory:", err)
-		return
-	}
-
-	dbPath := filepath.Join(dataDir, "todo.db")
 	db, err := sql.Open("sqlite3", dbPath)
 	if err != nil {
 		fmt.Println("Error opening database:", err)

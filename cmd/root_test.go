@@ -21,6 +21,7 @@ func TestInitDB(t *testing.T) {
 
 	// Verify: Check if the database file was created
 	dbPath := filepath.Join(tempDir, "go", "data", "todo_test.db")
+
 	if _, err := os.Stat(dbPath); os.IsNotExist(err) {
 		t.Fatalf("Expected database file to be created at %s, but it does not exist", dbPath)
 	}
