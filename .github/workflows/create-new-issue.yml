@@ -26,9 +26,7 @@ jobs:
           new_issue_url=$(gh issue create \
             --title "$TITLE" \
             --label "$LABELS" \
-            --body "$BODY" \
-            --json url \
-            --jq '.url')
+            --body "$BODY")
 
           # Extract the issue number from the URL
           issue_number=$(echo $new_issue_url | grep -o '[0-9]*$')
