@@ -1,4 +1,4 @@
-module todo
+module github.com/kjswartz/todo
 
 go 1.23.2
 
