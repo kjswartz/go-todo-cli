@@ -21,8 +21,7 @@ var updateCmd = &cobra.Command{
 	For example: 
 		todo update 1 -c to mark a todo item complete.
 		todo update 1 -d "new description" to update the description of a todo item.
-		todo update 1 -p2 to update the priority of a todo item.
-		todo update 1 -r to remove/delete the todo item.`,
+		todo update 1 -p2 to update the priority of a todo item.`,
 	Run: updateFunc,
 }
 
