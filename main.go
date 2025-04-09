@@ -3,7 +3,7 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 */
 package main
 
-import "github.com/kjswartz/todo/cmd"
+import "github.com/kjswartz/go-todo-cli/cmd"
 
 func main() {
 	cmd.Execute()
