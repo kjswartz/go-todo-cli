@@ -1,4 +1,4 @@
-module github.com/kjswartz/todo
+module github.com/kjswartz/go-todo-cli
 
 go 1.23.2
 
