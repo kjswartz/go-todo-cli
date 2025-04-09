@@ -25,11 +25,15 @@ var updateCmd = &cobra.Command{
 	Run: updateFunc,
 }
 
-var markComplete bool
+var (
+	markComplete bool
+	description  string
+)
 
 func init() {
 	rootCmd.AddCommand(updateCmd)
 	updateCmd.Flags().BoolVarP(&markComplete, "complete", "c", false, "Mark the todo item as complete")
+	updateCmd.Flags().StringVarP(&description, "description", "d", "", "Update the description of the todo item")
 }
 
 func updateFunc(cmd *cobra.Command, args []string) {
@@ -57,6 +61,13 @@ func updateFunc(cmd *cobra.Command, args []string) {
 		markCompleteFunc(db, id)
 		return
 	}
+
+	if description != "" {
+		updateDescriptionFunc(db, id, description)
+		return
+	}
+
+	fmt.Println("No valid flags provided. Use -c to mark complete or -d to update description.")
 }
 
 func markCompleteFunc(db *sql.DB, id int) {
@@ -67,4 +78,14 @@ func markCompleteFunc(db *sql.DB, id int) {
 		return
 	}
 	fmt.Println("Todo item", id, "marked as complete")
+}
+
+func updateDescriptionFunc(db *sql.DB, id int, description string) {
+	query := `UPDATE todos SET description = ? WHERE id = ?`
+	_, err := db.Exec(query, description, id)
+	if err != nil {
+		fmt.Println("Error updating todo description:", err)
+		return
+	}
+	fmt.Println("Todo item", id, "description updated to:", description)
 }
